@@ -7,13 +7,62 @@ public:
 	InputInterpreter interpreter;
 };
 
+TEST_F(InputInterpreterTests, GetParenthesisFromVectorOfParsedElements) {
+	std::string input = "(*36yahoo";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+
+	ASSERT_THAT(elements[0]->print(), testing::Eq("("));
+	ASSERT_THAT(elements[1]->print(), testing::Eq("*"));
+
+	ASSERT_THAT(elements[2]->print(), testing::Eq("36"));
+
+	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+
+}
+
+
+TEST_F(InputInterpreterTests, GetAnotherTWoElementsFromVectorOfParsedElements) {
+	std::string input = "*36yahoo";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+
+	ASSERT_THAT(elements[0]->print(), testing::Eq("*"));
+	ASSERT_THAT(elements[1]->print(), testing::Eq("36"));
+
+	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+
+}
+
+TEST_F(InputInterpreterTests, GetTWoElementsFromVectorOfParsedElements) {
+	std::string input = "25+yahoo";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+
+	ASSERT_THAT(elements[0]->print(), testing::Eq("25"));
+	ASSERT_THAT(elements[1]->print(), testing::Eq("+"));
+
+	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+
+}
+
+TEST_F(InputInterpreterTests, GetFirstElementFromVectorOfParsedElements) {
+	std::string input = "25yahoo";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+
+	ASSERT_THAT(elements[0]->print(), testing::Eq("25"));
+	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+
+}
+
 TEST_F(InputInterpreterTests, GetDoubleValueFromInput) {
 	std::string input = "21.5yahoo";
-	interpreter.setInput(input);
+	interpreter.init(input);
 	auto operand = interpreter.parseNumber(input);
 
 // to_string of a double returns 6 digits after the decimal-point character
-	ASSERT_THAT(operand->getValue(), testing::Eq("21.500000")); 
+	ASSERT_THAT(operand->print(), testing::Eq("21.500000")); 
 	ASSERT_THAT(input, testing::Eq("yahoo"));
 
 }
@@ -21,10 +70,10 @@ TEST_F(InputInterpreterTests, GetDoubleValueFromInput) {
 
 TEST_F(InputInterpreterTests, GetIntValueFromInput) {
 	std::string input = "21yahoo";
-	interpreter.setInput(input);
+	interpreter.init(input);
 	auto operand = interpreter.parseNumber(input);
 
-	ASSERT_THAT(operand->getValue(), testing::Eq("21"));
+	ASSERT_THAT(operand->print(), testing::Eq("21"));
 	ASSERT_THAT(input, testing::Eq("yahoo"));
 
 }
