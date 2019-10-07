@@ -13,6 +13,10 @@ class ShuntingYard {
 	std::queue<std::shared_ptr<Element>> input;
 
 public:
+
+	std::queue<std::shared_ptr<Element>> exposeRPNqueue() const {
+		return output;
+	}
 	void init(const std::vector<std::shared_ptr<Element>>& tokens) {
 		for (auto& t : tokens)
 			input.push(t);
@@ -30,11 +34,8 @@ public:
 				while ( !workingStack.empty() ) { 
 
 					if (auto w = std::dynamic_pointer_cast<Operation>(workingStack.top());
-						w &&
-						precedenceMap.at(op->getOperation())
-						<=
-						precedenceMap.at(w->getOperation())
-						)
+						w && op->getPrecedence() <= w->getPrecedence())
+
 					{
 						output.push(workingStack.top());
 						workingStack.pop();

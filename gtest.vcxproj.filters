@@ -41,5 +41,8 @@
     <ClInclude Include="ShuntingYard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Evaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

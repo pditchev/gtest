@@ -95,21 +95,21 @@ public:
 		std::shared_ptr<Operation> p;
 		switch (str[0]) {
 		case '+':
-			 p = std::make_shared<Operation>(OperationType::addition);
+			 p = std::make_shared<Addition>();
 			break;
 		case '-':
-			 p = std::make_shared<Operation>(OperationType::substraction);
+			 p = std::make_shared<Substraction>();
 			break;
 		
 		case '*':
-			p = std::make_shared<Operation>(OperationType::multiplication);
+			p = std::make_shared<Multiplication>();
 			break;
 		case '/':
-			p = std::make_shared<Operation>(OperationType::division);
+			p = std::make_shared<Division>();
 			break;
-		case '!':
-			p = std::make_shared<Operation>(OperationType::factorial);
-			break;
+		//case '!':
+		//	p = std::make_shared<Operation>(OperationType::factorial);
+		//	break;
 		}
 
 		str.erase(str.begin());
@@ -119,21 +119,21 @@ public:
 
 	std::shared_ptr<Numerical> parseNumber(std::string& str) {
 		char* out_strI;
-		char* out_strD;
+	//	char* out_strD;
 
 		int parsedInt = strtol(str.c_str(), &out_strI, 10);
-		double parsedDouble = strtod(str.c_str(), &out_strD);
-		if (parsedInt == parsedDouble) {
-			str = std::string(out_strI);
+	//	double parsedDouble = strtod(str.c_str(), &out_strD);
 
-			return std::make_shared<Numerical>
-					(NumericalType::INT, std::to_string(parsedInt));
-		}
-		else {
-			str = std::string(out_strD);
-			return std::make_shared<Numerical>
-					(NumericalType::DOUBLE, std::to_string(parsedDouble));
-		}
+	//	if (parsedInt == parsedDouble)
+	//	{
+			str = std::string(out_strI);
+			return std::make_shared<Integer>(parsedInt);
+		//}
+		//else
+		//{
+		//	str = std::string(out_strD);
+		//	return std::make_shared<Double>(parsedDouble);
+		//}
 	}
 
 

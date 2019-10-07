@@ -1,14 +1,43 @@
 #include "pch.h"
 #include "InputInterpreter.h"
 #include "ShuntingYard.h"
+#include "Evaluator.h"
 
 
 class ShuntingYardTests : public testing::Test {
 public:
 	InputInterpreter interpreter;
 	ShuntingYard shyard;
-
+	Evaluator evaluator;
 };
+
+TEST_F(ShuntingYardTests, FinalResultAdvanced) {
+	std::string input = "3 +4*(5-2)	/2";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	auto rpn_queue = shyard.exposeRPNqueue();
+
+	int check = evaluator.evaluate(rpn_queue);
+
+	ASSERT_THAT(check, testing::Eq(9));
+}
+
+TEST_F(ShuntingYardTests, FinalResultSimple) {
+	std::string input = "3 +4";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	auto rpn_queue = shyard.exposeRPNqueue();
+
+	int check = evaluator.evaluate(rpn_queue);
+
+	ASSERT_THAT(check, testing::Eq(7));
+}
 
 TEST_F(ShuntingYardTests, CheckOutputWithParenthesisMoreAdv) {
 	std::string input = "3 +4*	2/ (1-5)";
@@ -131,16 +160,16 @@ TEST_F(InputInterpreterTests, GetFirstElementFromVectorOfParsedElements) {
 
 }
 
-TEST_F(InputInterpreterTests, GetDoubleValueFromInput) {
-	std::string input = "21.5yahoo";
-	interpreter.init(input);
-	auto operand = interpreter.parseNumber(input);
-
-// to_string of a double returns 6 digits after the decimal-point character
-	ASSERT_THAT(operand->print(), testing::Eq("21.500000")); 
-	ASSERT_THAT(input, testing::Eq("yahoo"));
-
-}
+//TEST_F(InputInterpreterTests, GetDoubleValueFromInput) {
+//	std::string input = "21.5yahoo";
+//	interpreter.init(input);
+//	auto operand = interpreter.parseNumber(input);
+//
+//// to_string of a double returns 6 digits after the decimal-point character
+//	ASSERT_THAT(operand->print(), testing::Eq("21.500000")); 
+//	ASSERT_THAT(input, testing::Eq("yahoo"));
+//
+//}
 
 
 TEST_F(InputInterpreterTests, GetIntValueFromInput) {

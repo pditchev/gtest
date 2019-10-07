@@ -184,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Element.h" />
+    <ClInclude Include="Evaluator.h" />
     <ClInclude Include="InputInterpreter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ShuntingYard.h" />
