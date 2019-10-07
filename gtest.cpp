@@ -1,6 +1,84 @@
 #include "pch.h"
 #include "InputInterpreter.h"
+#include "ShuntingYard.h"
 
+
+class ShuntingYardTests : public testing::Test {
+public:
+	InputInterpreter interpreter;
+	ShuntingYard shyard;
+
+};
+
+TEST_F(ShuntingYardTests, CheckOutputWithParenthesisMoreAdv) {
+	std::string input = "3 +4*	2/ (1-5)";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	std::string check = shyard.showOutput();
+
+	ASSERT_THAT(check, testing::Eq("342*15-/+"));
+}
+
+TEST_F(ShuntingYardTests, CheckOutputWithParenthesis) {
+	std::string input = "2*(3+4)";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	std::string check = shyard.showOutput();
+
+	ASSERT_THAT(check, testing::Eq("234+*"));
+}
+
+TEST_F(ShuntingYardTests, CheckOutputWithPriorityOperands) {
+	std::string input = "2*3+4";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	std::string check = shyard.showOutput();
+
+	ASSERT_THAT(check, testing::Eq("23*4+"));
+}
+
+TEST_F(ShuntingYardTests, CheckOutputNotSoSimple) {
+	std::string input = "2+3*4";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	std::string check = shyard.showOutput();
+
+	ASSERT_THAT(check, testing::Eq("234*+"));
+}
+
+TEST_F(ShuntingYardTests, CheckOutputSimple) {
+	std::string input = "2+3";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	shyard.convert();
+
+	std::string check = shyard.showOutput();
+
+	ASSERT_THAT(check, testing::Eq("23+"));
+}
+
+TEST_F(ShuntingYardTests, CheckInputSuccess) {
+	std::string input = "(	* 36/)";
+	interpreter.init(input);
+	auto elements = interpreter.getParsedElements();
+	shyard.init(elements);
+	std::string check = shyard.showInput();
+
+	ASSERT_THAT(check, testing::Eq("(*36/)"));
+}
 
 class InputInterpreterTests : public testing::Test {
 public:
@@ -8,17 +86,14 @@ public:
 };
 
 TEST_F(InputInterpreterTests, GetParenthesisFromVectorOfParsedElements) {
-	std::string input = "(*36yahoo";
+	std::string input = "(	* 36yahoo";
 	interpreter.init(input);
 	auto elements = interpreter.getParsedElements();
 
 	ASSERT_THAT(elements[0]->print(), testing::Eq("("));
 	ASSERT_THAT(elements[1]->print(), testing::Eq("*"));
-
 	ASSERT_THAT(elements[2]->print(), testing::Eq("36"));
-
-	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
-
+	ASSERT_THAT(interpreter.inputStr, testing::Eq("yahoo"));
 }
 
 
@@ -30,7 +105,7 @@ TEST_F(InputInterpreterTests, GetAnotherTWoElementsFromVectorOfParsedElements) {
 	ASSERT_THAT(elements[0]->print(), testing::Eq("*"));
 	ASSERT_THAT(elements[1]->print(), testing::Eq("36"));
 
-	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+	ASSERT_THAT(interpreter.inputStr, testing::Eq("yahoo"));
 
 }
 
@@ -42,7 +117,7 @@ TEST_F(InputInterpreterTests, GetTWoElementsFromVectorOfParsedElements) {
 	ASSERT_THAT(elements[0]->print(), testing::Eq("25"));
 	ASSERT_THAT(elements[1]->print(), testing::Eq("+"));
 
-	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+	ASSERT_THAT(interpreter.inputStr, testing::Eq("yahoo"));
 
 }
 
@@ -52,7 +127,7 @@ TEST_F(InputInterpreterTests, GetFirstElementFromVectorOfParsedElements) {
 	auto elements = interpreter.getParsedElements();
 
 	ASSERT_THAT(elements[0]->print(), testing::Eq("25"));
-	ASSERT_THAT(interpreter.input, testing::Eq("yahoo"));
+	ASSERT_THAT(interpreter.inputStr, testing::Eq("yahoo"));
 
 }
 

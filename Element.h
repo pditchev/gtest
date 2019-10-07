@@ -1,11 +1,20 @@
 #pragma once
 #include <string>
+#include <map>
 
 
 enum class ElementType {number, operation, precedence_qualifier};
 enum class NumericalType {INT, DOUBLE};
 enum class OperationType {multiplication, division, addition, substraction, factorial};
 enum class ParenthesisType {opening, closing};
+
+const std::map < OperationType, int> precedenceMap {
+	{OperationType::multiplication,	10},
+	{OperationType::division,		10},
+	{OperationType::addition,		 5},
+	{OperationType::substraction,	 5},
+	{OperationType::factorial,		15}
+};
 
 class Element {
 protected:
@@ -14,6 +23,10 @@ public:
 	Element(ElementType type) : type(type) {}
 
 	virtual std::string print() = 0;
+
+	ElementType getType() {
+		return type;
+	}
 };
 
 class Numerical : public Element {
@@ -40,11 +53,17 @@ public:
 
 class Operation : public Element {
 	OperationType op_type;
+//	int precedence;
 public:
 	Operation(OperationType t)
 		: Element(ElementType::operation) {
 		op_type = t;
 	}
+
+	OperationType getOperation() {
+		return op_type;
+	}
+
 
 	std::string print() override {
 		switch (op_type) {
@@ -74,6 +93,10 @@ public:
 	Parenthesis(ParenthesisType t)
 		: Element(ElementType::precedence_qualifier) {
 		p_type = t;
+	}
+
+	ParenthesisType getType() {
+		return p_type;
 	}
 
 	std::string print() override {

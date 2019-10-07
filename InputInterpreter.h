@@ -13,9 +13,7 @@ class InputInterpreter {
 	std::vector<std::shared_ptr<Element>> parsedExpression;
 	bool consistent = false;
 public:
-	CalculationEngine engine;
-	int value;
-	std::string input;
+	std::string inputStr;
 
 public:
 	std::vector<std::shared_ptr<Element>> getParsedElements() {
@@ -23,13 +21,22 @@ public:
 	}
 
 	void init(const std::string& input) {
-		this->input = input;
-		parseInput();
-		consistent = checkConsistency();
+		this->inputStr = input;
+		removeWhiteSpaces(inputStr);
+		parseInput(inputStr);
+		consistent = checkConsistency(inputStr);
 	}
 
-	bool checkConsistency() {
-		if (!input.empty())
+	void removeWhiteSpaces(std::string& str) {
+		for (int i = 0; i < str.size();) 
+			if (isspace(str[i]))
+				str.erase(i, 1);
+			else
+				++i;
+	}
+
+	bool checkConsistency(const std::string& str) const {
+		if (!str.empty())
 			return false;
 
 		int parentheses = 0;
@@ -48,6 +55,10 @@ public:
 
 	}
 
+	bool is_part_of_number(char x) {
+		return isdigit(x) || x == '.';
+	}
+
 	bool is_operation(char x) {
 		return operations.find(x) != std::string::npos;
 	}
@@ -56,7 +67,7 @@ public:
 		return x == '(' || x == ')';
 	}
 
-	void parseInput() {
+	void parseInput(std::string& input) {
 		while (!input.empty()) {
 			if (is_part_of_number(input[0])) {
 				parsedExpression.emplace_back(parseNumber(input));
@@ -79,7 +90,6 @@ public:
 		else
 			return std::make_shared<Parenthesis>(ParenthesisType::closing);
 	}
-
 
 	std::shared_ptr<Operation> parseOperation(std::string& str) {
 		std::shared_ptr<Operation> p;
@@ -107,8 +117,6 @@ public:
 	
 	}
 
-
-
 	std::shared_ptr<Numerical> parseNumber(std::string& str) {
 		char* out_strI;
 		char* out_strD;
@@ -128,57 +136,6 @@ public:
 		}
 	}
 
-	bool is_part_of_number(char x) {
-		return isdigit(x) || x == '.';
-	}
-
-	char getChar(std::string& inputStr) {
-		if (inputStr.size() == 0)
-			return 0;
-		char x = inputStr[0];
-		inputStr.erase(inputStr.begin());
-		return x;
-	}
-
-	int to_Int(const std::string& str) const {
-		return strtol(str.c_str(), nullptr, 10);
-	}
 
 
-
-	//void parseNextToken(char x) {
-	//	std::string parsed;
-
-	//	while (is_part_of_number(x)) {
-	//		parsed += x;
-	//		x = getChar(this->input);
-	//		if (!x) break; // end of inputStr
-	//	}
-	//	if (!parsed.empty()) {
-	//		engine.setOperand(to_Int(parsed));
-	//		parsed.clear();
-	//	}
-	//	switch (x) {
-	//	case '/':
-	//		engine.setOperation(std::make_shared<Division>());
-	//		break;
-	//	case '*':
-	//		engine.setOperation(std::make_shared<Multiplication>());
-	//		break;
-	//	case '=':
-	//		engine.setOperation(std::make_shared<EndOperation>());
-	//		break;
-	//	}
-	//	if (auto x = getChar(this->input))
-	//		parseNextToken(x);
-	//}
-
-
-	int getValue() const {
-		return value;
-	}
-
-	//auto getOperation() const {
-	//	return operation;
-	//}
 };

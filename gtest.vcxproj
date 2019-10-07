@@ -92,6 +92,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1;C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1\include;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,6 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1;C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1\include;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +128,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1;C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1\include;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1;C:\Users\dee\source\repos\gtest\libs\gtest-1.8.1\include;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1;C:\Users\dee\source\repos\gtest\libs\gmock-1.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -179,11 +183,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CalculationEngine.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="InputInterpreter.h" />
-    <ClInclude Include="Operations.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ShuntingYard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

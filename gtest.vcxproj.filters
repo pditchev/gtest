@@ -35,13 +35,10 @@
     <ClInclude Include="InputInterpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CalculationEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Element.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Operations.h">
+    <ClInclude Include="ShuntingYard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
